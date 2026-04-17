@@ -1,65 +1,92 @@
-import Image from "next/image";
+import Link from 'next/link';
+import { Calculator } from '@/components/Calculator';
+import { LeadCaptureForm } from '@/components/LeadCaptureForm';
+import { FaqSection } from '@/components/FaqSection';
+import { StructuredData } from '@/components/StructuredData';
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <>
+      <StructuredData />
+      {/* HERO */}
+      <section className="border-b bg-gradient-to-b from-emerald-50/40 to-transparent">
+        <div className="max-w-6xl mx-auto px-4 pt-16 pb-10">
+          <span className="inline-block text-xs font-medium tracking-wider uppercase text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full">
+            FY2025-26 · EV FBT exemption included
+          </span>
+          <h1 className="mt-4 text-4xl md:text-5xl font-semibold tracking-tight max-w-3xl">
+            The honest Australian novated lease calculator.
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
+            See exactly how much an electric novated lease saves you versus buying outright or financing — using the FBT exemption rules that actually apply right now. No sign-up, no sales calls, no gotchas.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* CALCULATOR */}
+      <section className="max-w-6xl mx-auto px-4 py-10">
+        <Calculator />
+      </section>
+
+      {/* LEAD CAPTURE */}
+      <section className="max-w-3xl mx-auto px-4 py-16">
+        <div className="rounded-xl border bg-card p-8">
+          <h2 className="text-2xl font-semibold tracking-tight">Want an exact quote?</h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            We&apos;ll have an independent novated lease specialist run your numbers on a real car, with your employer&apos;s actual FBT treatment. Free, no obligation.
+          </p>
+          <div className="mt-6">
+            <LeadCaptureForm />
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* TRUST / EXPLAINER */}
+      <section className="border-t bg-muted/30">
+        <div className="max-w-6xl mx-auto px-4 py-16 grid md:grid-cols-3 gap-8">
+          <div>
+            <h3 className="font-semibold">Why novated leases work</h3>
+            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+              The vehicle and its running costs come out of your pre-tax salary. For eligible EVs, the FBT
+              exemption means zero post-tax contribution — 100% pre-tax.
+            </p>
+            <Link
+              href="/fbt-exemption-explained"
+              className="text-sm text-emerald-700 mt-3 inline-block hover:underline"
+            >
+              How the FBT exemption works →
+            </Link>
+          </div>
+          <div>
+            <h3 className="font-semibold">EV vs ICE vs PHEV</h3>
+            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+              Only battery EVs under the $91,387 fuel-efficient LCT threshold qualify in FY2025-26. The PHEV
+              exemption ended 1 April 2025 for new leases.
+            </p>
+            <Link
+              href="/ev-novated-lease-australia"
+              className="text-sm text-emerald-700 mt-3 inline-block hover:underline"
+            >
+              Read the EV guide →
+            </Link>
+          </div>
+          <div>
+            <h3 className="font-semibold">Lease vs cash vs loan</h3>
+            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+              A novated lease usually wins for EVs on salary over ~$90k. For cheap petrol cars, cash is often
+              still the cheapest path.
+            </p>
+            <Link
+              href="/novated-vs-cash-vs-loan"
+              className="text-sm text-emerald-700 mt-3 inline-block hover:underline"
+            >
+              See the comparison →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <FaqSection />
+    </>
   );
 }
