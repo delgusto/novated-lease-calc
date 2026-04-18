@@ -47,6 +47,11 @@ export function Calculator() {
 
   const overLct = fuelType === 'bev' && carPrice > LCT_THRESHOLD_FUEL_EFFICIENT;
 
+  // Derived — no extra state: clears automatically when user edits price or fuel type
+  const activePreset = PRESETS.find(
+    (p) => p.carPrice === carPrice && p.fuelType === fuelType,
+  )?.label ?? null;
+
   return (
     <div className="grid lg:grid-cols-5 gap-6">
       <Card className="lg:col-span-2">
@@ -98,7 +103,11 @@ export function Calculator() {
                     setCarPrice(p.carPrice);
                     setFuelType(p.fuelType);
                   }}
-                  className="text-xs min-h-[40px] px-3 py-2 rounded-full border border-border hover:bg-accent transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
+                  className={`text-xs min-h-[40px] px-3 py-2 rounded-full border transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none ${
+                    activePreset === p.label
+                      ? 'border-emerald-600 bg-emerald-50 text-emerald-900'
+                      : 'border-border hover:bg-accent'
+                  }`}
                 >
                   {p.label}
                 </button>
