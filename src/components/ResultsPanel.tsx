@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { ChevronDownIcon } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { aud } from '@/lib/format';
@@ -12,76 +13,159 @@ import {
   ELECTRICITY_PRICE_PER_KWH,
 } from '@/lib/calc/constants';
 
+type BreakdownRow = { label: string; value: string; credit?: boolean };
+
+function getBreakdownRows(breakdown: Record<string, number>): BreakdownRow[] {
+  const rows: BreakdownRow[] = [];
+
+  if ('annualPackageDeduction' in breakdown) {
+    rows.push({ label: 'Annual pre-tax package', value: `${aud.format(breakdown.annualPackageDeduction)}/yr` });
+  }
+  if ('postTaxEcmContribution' in breakdown && breakdown.postTaxEcmContribution > 0) {
+    rows.push({ label: 'Employee contribution (FBT offset)', value: `${aud.format(breakdown.postTaxEcmContribution)}/yr` });
+  }
+  if ('reducedTakeHome' in breakdown) {
+    rows.push({ label: 'Net take-home reduction', value: `${aud.format(breakdown.reducedTakeHome)}/yr` });
+  }
+  if ('upfront' in breakdown) {
+    rows.push({ label: 'Purchase price (day 1)', value: aud.format(breakdown.upfront) });
+  }
+  if ('annualRepayment' in breakdown) {
+    rows.push({ label: 'Annual loan repayments', value: `${aud.format(breakdown.annualRepayment)}/yr` });
+  }
+  if ('totalInterest' in breakdown) {
+    rows.push({ label: 'Total interest paid', value: aud.format(breakdown.totalInterest) });
+  }
+  if ('annualRunningCosts' in breakdown) {
+    rows.push({ label: 'Running costs (fuel, rego, service)', value: `${aud.format(breakdown.annualRunningCosts)}/yr` });
+  }
+  if ('resaleAtEnd' in breakdown) {
+    const isCashOrLoan = 'upfront' in breakdown || 'annualRepayment' in breakdown;
+    rows.push({
+      label: isCashOrLoan ? 'Estimated resale value' : 'Balloon payment (to keep car)',
+      value: `−${aud.format(breakdown.resaleAtEnd)}`,
+      credit: true,
+    });
+  }
+
+  return rows;
+}
+
 function ScenarioCard({
   result,
   highlight,
   termYears,
   tag,
+  expanded,
+  onToggle,
 }: {
   result: ScenarioResult;
   highlight: boolean;
   termYears: number;
   tag?: string;
+  expanded: boolean;
+  onToggle: () => void;
 }) {
+  const breakdownRows = getBreakdownRows(result.breakdown);
+
   return (
     <div
-      className={`rounded-lg border p-4 transition-all ${
+      className={`rounded-lg border overflow-hidden transition-all ${
         highlight
           ? 'border-2 border-emerald-600 bg-emerald-50 shadow-sm'
           : 'border-border opacity-90'
       }`}
     >
-      <div className="flex items-center justify-between gap-2 mb-2">
-        <div className={`text-sm font-medium ${highlight ? 'text-emerald-900' : 'text-muted-foreground'}`}>
-          {result.label}
-        </div>
-        {highlight ? (
-          <span className="text-xs tracking-wider uppercase bg-emerald-800 text-white px-2 py-0.5 rounded shrink-0">
-            Best deal
-          </span>
-        ) : tag ? (
-          <span
-            className="text-xs tracking-wider uppercase bg-muted text-muted-foreground px-2 py-0.5 rounded shrink-0"
-            title={
-              tag === 'No FBT'
-                ? 'FBT exemption applies — 100% of the package is pre-tax. No Employee Contribution needed.'
-                : tag === 'Standard rates'
-                ? 'No FBT exemption on this car. ECM post-tax contributions offset the FBT liability.'
-                : undefined
-            }
-          >
-            {tag}
-          </span>
-        ) : null}
-      </div>
-      <div className="flex items-baseline gap-1">
-        <span className={`${highlight ? 'text-3xl font-bold' : 'text-2xl font-semibold'} tabular-nums`}>
-          {aud.format(result.weeklyNetCost)}
-        </span>
-        <span className="text-xs text-muted-foreground">/week</span>
-      </div>
-      <div className="mt-3 text-xs text-muted-foreground space-y-1">
-        <div className="flex justify-between">
-          <span>Annual net cost</span>
-          <span className="tabular-nums text-foreground">{aud.format(result.annualNetCost)}</span>
-        </div>
-        <div className="flex justify-between">
-          <span>{termYears}-year total</span>
-          <span className="tabular-nums text-foreground">{aud.format(result.totalCost)}</span>
-        </div>
-        {result.ownsCar ? (
-          <div className={`pt-1 ${highlight ? 'text-emerald-700' : ''}`}>✓ You own the car at end</div>
-        ) : (
-          <div className="pt-1">
-            <span
-              className="cursor-help underline decoration-dotted decoration-muted-foreground"
-              title="The ATO-prescribed minimum you pay at lease end to keep the car. On a 5-year lease, typically 28% of the ex-GST price. You can also refinance it into a new lease or hand the car back."
-            >
-              Balloon payment to keep car
-            </span>
-            : {aud.format(result.breakdown.resaleAtEnd)}
+      <div className="p-4">
+        <div className="flex items-center justify-between gap-2 mb-2">
+          <div className={`text-sm font-medium ${highlight ? 'text-emerald-900' : 'text-muted-foreground'}`}>
+            {result.label}
           </div>
-        )}
+          {highlight ? (
+            <span className="text-xs tracking-wider uppercase bg-emerald-800 text-white px-2 py-0.5 rounded shrink-0">
+              Best deal
+            </span>
+          ) : tag ? (
+            <span
+              className="text-xs tracking-wider uppercase bg-muted text-muted-foreground px-2 py-0.5 rounded shrink-0"
+              title={
+                tag === 'No FBT'
+                  ? 'FBT exemption applies — 100% of the package is pre-tax. No Employee Contribution needed.'
+                  : tag === 'Standard rates'
+                  ? 'No FBT exemption on this car. ECM post-tax contributions offset the FBT liability.'
+                  : undefined
+              }
+            >
+              {tag}
+            </span>
+          ) : null}
+        </div>
+        <div className="flex items-baseline gap-1">
+          <span className={`${highlight ? 'text-3xl font-bold' : 'text-2xl font-semibold'} tabular-nums`}>
+            {aud.format(result.weeklyNetCost)}
+          </span>
+          <span className="text-xs text-muted-foreground">/week</span>
+        </div>
+        <div className="mt-3 text-xs text-muted-foreground space-y-1">
+          <div className="flex justify-between">
+            <span>Annual net cost</span>
+            <span className="tabular-nums text-foreground">{aud.format(result.annualNetCost)}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>{termYears}-year total</span>
+            <span className="tabular-nums text-foreground">{aud.format(result.totalCost)}</span>
+          </div>
+          {result.ownsCar ? (
+            <div className={`pt-1 ${highlight ? 'text-emerald-700' : ''}`}>✓ You own the car at end</div>
+          ) : (
+            <div className="pt-1">
+              <span
+                className="cursor-help underline decoration-dotted decoration-muted-foreground"
+                title="The ATO-prescribed minimum you pay at lease end to keep the car. On a 5-year lease, typically 28% of the ex-GST price. You can also refinance it into a new lease or hand the car back."
+              >
+                Balloon payment to keep car
+              </span>
+              : {aud.format(result.breakdown.resaleAtEnd)}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Expand toggle */}
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={expanded}
+        className={`w-full flex items-center justify-center gap-1 py-2 text-xs border-t transition-colors ${
+          highlight
+            ? 'border-emerald-200 text-emerald-700 hover:bg-emerald-100'
+            : 'border-border text-muted-foreground hover:text-foreground hover:bg-accent'
+        }`}
+      >
+        <ChevronDownIcon
+          className={`size-3 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
+        />
+        {expanded ? 'Hide breakdown' : 'Show breakdown'}
+      </button>
+
+      {/* Breakdown panel — animates open/close via grid trick */}
+      <div
+        className={`grid transition-[grid-template-rows] duration-200 ease-out ${
+          expanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className={`px-4 py-3 space-y-1.5 border-t text-xs ${highlight ? 'border-emerald-200' : 'border-border'}`}>
+            {breakdownRows.map(({ label, value, credit }) => (
+              <div key={label} className="flex justify-between gap-4">
+                <span className={credit ? 'text-muted-foreground' : ''}>{label}</span>
+                <span className={`tabular-nums shrink-0 ${credit ? 'text-muted-foreground' : 'text-foreground font-medium'}`}>
+                  {value}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -96,6 +180,11 @@ export function ResultsPanel({
 }) {
   const { novatedEvExempt, novatedEcm, cash, loan, best, savingsVsCash } = results;
   const hasSaving = savingsVsCash > 0;
+  const [expandedCard, setExpandedCard] = useState<string | null>(null);
+
+  function toggleCard(id: string) {
+    setExpandedCard((prev) => (prev === id ? null : id));
+  }
 
   return (
     <Card className="h-full">
@@ -147,6 +236,8 @@ export function ResultsPanel({
               highlight={best === 'novatedEvExempt'}
               termYears={termYears}
               tag="No FBT"
+              expanded={expandedCard === 'novatedEvExempt'}
+              onToggle={() => toggleCard('novatedEvExempt')}
             />
           )}
           <ScenarioCard
@@ -154,16 +245,22 @@ export function ResultsPanel({
             highlight={best === 'novatedEcm'}
             termYears={termYears}
             tag={novatedEvExempt ? 'Standard rates' : undefined}
+            expanded={expandedCard === 'novatedEcm'}
+            onToggle={() => toggleCard('novatedEcm')}
           />
           <ScenarioCard
             result={cash}
             highlight={best === 'cash'}
             termYears={termYears}
+            expanded={expandedCard === 'cash'}
+            onToggle={() => toggleCard('cash')}
           />
           <ScenarioCard
             result={loan}
             highlight={best === 'loan'}
             termYears={termYears}
+            expanded={expandedCard === 'loan'}
+            onToggle={() => toggleCard('loan')}
           />
         </div>
 

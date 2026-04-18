@@ -1,7 +1,8 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { ZapIcon, FuelIcon, InfoIcon } from 'lucide-react';
+import { InfoIcon } from 'lucide-react';
+import { CarSilhouette } from './CarSilhouette';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -28,11 +29,6 @@ const DEFAULTS = {
   fuelType: 'bev' as FuelType,
 };
 
-const PRESET_ICON: Record<FuelType, React.ElementType> = {
-  bev: ZapIcon,
-  phev: ZapIcon,
-  ice: FuelIcon,
-};
 
 export function Calculator() {
   const [grossSalary, setGrossSalary] = useState(DEFAULTS.grossSalary);
@@ -133,20 +129,19 @@ export function Calculator() {
             )}
             <div className="flex flex-wrap gap-1.5 pt-1">
               {PRESETS.map((p) => {
-                const Icon = PRESET_ICON[p.fuelType];
                 const active = activePreset === p.label;
                 return (
                   <button
                     key={p.label}
                     type="button"
                     onClick={() => { setCarPrice(p.carPrice); setFuelType(p.fuelType); }}
-                    className={`flex items-center gap-1.5 text-xs min-h-[44px] px-3 py-2 rounded-full border transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none ${
+                    className={`flex items-center gap-2 text-xs min-h-[44px] px-3 py-2 rounded-full border transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none ${
                       active
                         ? 'border-emerald-600 bg-emerald-50 text-emerald-900'
                         : 'border-border hover:bg-accent'
                     }`}
                   >
-                    <Icon className="size-3 shrink-0" />
+                    <CarSilhouette variant={p.carVariant} className="w-8 h-4 shrink-0" />
                     {p.label}
                   </button>
                 );
