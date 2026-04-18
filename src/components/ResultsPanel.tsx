@@ -17,24 +17,25 @@ function ScenarioCard({
 }) {
   return (
     <div
-      className={`rounded-lg border p-4 relative ${
+      className={`rounded-lg border p-4 ${
         highlight
-          ? 'border-emerald-600 bg-emerald-50/50 ring-1 ring-emerald-600'
+          ? 'border-emerald-700 bg-emerald-50/50 ring-1 ring-emerald-700'
           : 'border-border'
       }`}
     >
-      {highlight && (
-        <span className="absolute -top-2 left-3 text-[10px] tracking-wider uppercase bg-emerald-600 text-white px-2 py-0.5 rounded">
-          Best deal
-        </span>
-      )}
-      {tag && !highlight && (
-        <span className="absolute -top-2 left-3 text-[10px] tracking-wider uppercase bg-muted text-muted-foreground px-2 py-0.5 rounded">
-          {tag}
-        </span>
-      )}
-      <div className="text-sm font-medium text-muted-foreground">{result.label}</div>
-      <div className="mt-1 flex items-baseline gap-1">
+      <div className="flex items-center justify-between gap-2 mb-2">
+        <div className="text-sm font-medium text-muted-foreground">{result.label}</div>
+        {highlight ? (
+          <span className="text-xs tracking-wider uppercase bg-emerald-800 text-white px-2 py-0.5 rounded shrink-0">
+            Best deal
+          </span>
+        ) : tag ? (
+          <span className="text-xs tracking-wider uppercase bg-muted text-muted-foreground px-2 py-0.5 rounded shrink-0">
+            {tag}
+          </span>
+        ) : null}
+      </div>
+      <div className="flex items-baseline gap-1">
         <span className="text-2xl font-semibold tabular-nums">
           {aud.format(result.weeklyNetCost)}
         </span>
@@ -52,7 +53,7 @@ function ScenarioCard({
         {result.ownsCar ? (
           <div className="text-emerald-700 pt-1">✓ You own the car at end</div>
         ) : (
-          <div className="pt-1">Residual due: {aud.format(result.breakdown.resaleAtEnd)}</div>
+          <div className="pt-1">Residual due at lease end: {aud.format(result.breakdown.resaleAtEnd)}</div>
         )}
       </div>
     </div>
@@ -70,11 +71,11 @@ export function ResultsPanel({
 
   return (
     <Card className="h-full">
-      <CardContent className="pt-6 space-y-6">
+      <CardContent className="pt-6 space-y-6" aria-live="polite" aria-atomic="true">
         <div>
-          <p className="text-sm text-muted-foreground">Your best option</p>
+          <p className="text-sm font-medium text-foreground">Your best option</p>
           <div className="mt-1 flex items-baseline gap-2">
-            <span className="text-3xl font-semibold tabular-nums">
+            <span className="text-5xl font-semibold tabular-nums">
               {aud.format(savingsVsCash)}
             </span>
             <span className="text-sm text-muted-foreground">
@@ -126,7 +127,7 @@ export function ResultsPanel({
           />
         </div>
 
-        <p className="text-[11px] text-muted-foreground leading-relaxed pt-2">
+        <p className="text-xs text-muted-foreground leading-relaxed pt-2">
           Estimates only. Assumes FY2025-26 tax rates, 8.5% lease rate, 8.9% car loan rate, ATO minimum residual at end
           of term, and average AU running costs. Real provider quotes will vary — get a quote below for an exact number.
         </p>

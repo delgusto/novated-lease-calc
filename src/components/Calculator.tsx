@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { TriangleAlertIcon } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -56,23 +57,27 @@ export function Calculator() {
           <div className="space-y-2">
             <Label htmlFor="salary">Gross annual salary</Label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">$</span>
+              <span aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">$</span>
               <Input
                 id="salary"
                 type="number"
                 className="pl-7"
                 value={grossSalary}
                 onChange={(e) => setGrossSalary(Number(e.target.value) || 0)}
-                min={0}
+                min={30000}
+                max={500000}
                 step={1000}
+                aria-label="Gross annual salary in dollars"
+                aria-describedby="salary-hint"
               />
             </div>
+            <p id="salary-hint" className="text-xs text-muted-foreground">Between $30,000 and $500,000</p>
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="car">Car price (driveaway, GST incl)</Label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">$</span>
+              <span aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">$</span>
               <Input
                 id="car"
                 type="number"
@@ -81,6 +86,7 @@ export function Calculator() {
                 onChange={(e) => setCarPrice(Number(e.target.value) || 0)}
                 min={0}
                 step={500}
+                aria-label="Car price in dollars, driveaway including GST"
               />
             </div>
             <div className="flex flex-wrap gap-1.5 pt-1">
@@ -92,7 +98,7 @@ export function Calculator() {
                     setCarPrice(p.carPrice);
                     setFuelType(p.fuelType);
                   }}
-                  className="text-xs px-2 py-1 rounded-full border border-border hover:bg-accent transition"
+                  className="text-xs min-h-[40px] px-3 py-2 rounded-full border border-border hover:bg-accent transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
                 >
                   {p.label}
                 </button>
@@ -111,8 +117,8 @@ export function Calculator() {
                 <label
                   key={ft}
                   htmlFor={`ft-${ft}`}
-                  className={`flex items-center justify-center gap-2 border rounded-md px-3 py-2 text-sm cursor-pointer transition ${
-                    fuelType === ft ? 'border-emerald-600 bg-emerald-50' : 'hover:bg-accent'
+                  className={`flex items-center justify-center gap-2 border rounded-md px-3 py-2 text-sm cursor-pointer transition has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:outline-none ${
+                    fuelType === ft ? 'border-emerald-700 bg-emerald-50 text-emerald-900' : 'hover:bg-accent'
                   }`}
                 >
                   <RadioGroupItem id={`ft-${ft}`} value={ft} className="sr-only" />
@@ -149,14 +155,19 @@ export function Calculator() {
                 value={annualKm}
                 onChange={(e) => setAnnualKm(Number(e.target.value) || 0)}
                 min={0}
+                max={100000}
                 step={1000}
+                aria-label="Annual kilometres driven"
+                aria-describedby="km-hint"
               />
+              <p id="km-hint" className="text-xs text-muted-foreground">Typical 10,000–25,000 km/year</p>
             </div>
           </div>
 
           {overLct && (
-            <Alert>
-              <AlertDescription className="text-xs">
+            <Alert variant="destructive">
+              <TriangleAlertIcon />
+              <AlertDescription>
                 This EV is over the ${LCT_THRESHOLD_FUEL_EFFICIENT.toLocaleString('en-AU')} luxury-car-tax threshold,
                 so it does <strong>not</strong> qualify for the FBT exemption.
               </AlertDescription>
@@ -165,8 +176,9 @@ export function Calculator() {
 
           {fuelType === 'phev' && (
             <Alert>
-              <AlertDescription className="text-xs">
-                The PHEV FBT exemption ended 1 April 2025. New PHEV leases are treated as standard (no exemption).
+              <AlertDescription>
+                The PHEV FBT exemption ended 1 April 2025. New PHEV leases are treated as standard (no
+                exemption).
               </AlertDescription>
             </Alert>
           )}

@@ -1,4 +1,4 @@
-import { FAQ_ITEMS } from './FaqSection';
+import { FAQ_ITEMS } from '@/lib/faq-items';
 
 const BASE_URL = 'https://novated-lease-calc.vercel.app';
 

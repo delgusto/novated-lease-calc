@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
+import { NavLinks } from "@/components/NavLinks";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -47,25 +48,21 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:ring-2 focus:ring-ring focus:outline-none"
+        >
+          Skip to calculator
+        </a>
         <header className="border-b">
           <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
             <Link href="/" className="font-semibold tracking-tight text-lg">
               NovaLease<span className="text-emerald-600">.</span>
             </Link>
-            <nav className="flex items-center gap-6 text-sm text-muted-foreground">
-              <Link href="/ev-novated-lease-australia" className="hover:text-foreground">
-                EV Guide
-              </Link>
-              <Link href="/fbt-exemption-explained" className="hover:text-foreground">
-                FBT Exemption
-              </Link>
-              <Link href="/novated-vs-cash-vs-loan" className="hover:text-foreground">
-                vs Cash & Loan
-              </Link>
-            </nav>
+            <NavLinks />
           </div>
         </header>
-        <main className="flex-1">{children}</main>
+        <main id="main-content" className="flex-1">{children}</main>
         <footer className="border-t mt-16">
           <div className="max-w-6xl mx-auto px-4 py-8 text-sm text-muted-foreground flex flex-wrap gap-x-6 gap-y-2 justify-between">
             <p>
