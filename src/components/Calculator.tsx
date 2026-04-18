@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from 'react';
 import { InfoIcon } from 'lucide-react';
-import { CarSilhouette } from './CarSilhouette';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -18,7 +17,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { compareScenarios, type CompareOutput } from '@/lib/calc/compare';
 import type { FuelType } from '@/lib/calc/fbt';
 import { LCT_THRESHOLD_FUEL_EFFICIENT } from '@/lib/calc/constants';
-import { PRESETS } from '@/lib/presets';
+import { PRICE_RANGES } from '@/lib/presets';
 import { ResultsPanel } from './ResultsPanel';
 
 const DEFAULTS = {
@@ -56,7 +55,7 @@ export function Calculator() {
   const overLct = fuelType === 'bev' && carPrice > LCT_THRESHOLD_FUEL_EFFICIENT;
 
   const activePreset =
-    PRESETS.find((p) => p.carPrice === carPrice && p.fuelType === fuelType)?.label ?? null;
+    PRICE_RANGES.find((p) => p.carPrice === carPrice && p.fuelType === fuelType)?.label ?? null;
 
   function reset() {
     setGrossSalary(DEFAULTS.grossSalary);
@@ -93,6 +92,7 @@ export function Calculator() {
                 type="number"
                 className="pl-7"
                 value={grossSalary}
+                onFocus={(e) => e.target.select()}
                 onChange={(e) => setGrossSalary(Number(e.target.value) || 0)}
                 min={30000}
                 max={500000}
@@ -118,6 +118,7 @@ export function Calculator() {
                 type="number"
                 className="pl-7"
                 value={carPrice}
+                onFocus={(e) => e.target.select()}
                 onChange={(e) => setCarPrice(Number(e.target.value) || 0)}
                 min={0}
                 step={500}
@@ -128,21 +129,21 @@ export function Calculator() {
               <p className="text-xs text-destructive">Enter a car price greater than $0 to see results.</p>
             )}
             <div className="flex flex-wrap gap-1.5 pt-1">
-              {PRESETS.map((p) => {
+              {PRICE_RANGES.map((p) => {
                 const active = activePreset === p.label;
                 return (
                   <button
                     key={p.label}
                     type="button"
                     onClick={() => { setCarPrice(p.carPrice); setFuelType(p.fuelType); }}
-                    className={`flex items-center gap-2 text-xs min-h-[44px] px-3 py-2 rounded-full border transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none ${
+                    className={`flex flex-col items-start text-xs min-h-[44px] px-3 py-2 rounded-lg border transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none ${
                       active
                         ? 'border-emerald-600 bg-emerald-50 text-emerald-900'
                         : 'border-border hover:bg-accent'
                     }`}
                   >
-                    <CarSilhouette variant={p.carVariant} className="w-8 h-4 shrink-0" />
-                    {p.label}
+                    <span className="font-medium">{p.label}</span>
+                    <span className={active ? 'text-emerald-700' : 'text-muted-foreground'}>{p.subLabel}</span>
                   </button>
                 );
               })}

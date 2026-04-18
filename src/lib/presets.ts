@@ -1,16 +1,12 @@
 /**
- * Preset car options shown in the calculator.
- *
- * Review every June — driveaway prices change with manufacturer updates,
- * model year revisions, and currency fluctuations. Verify on carsales.com.au
- * or manufacturer sites before updating. Prices are driveaway, GST-inclusive.
+ * Price-tier shortcuts shown in the calculator.
+ * Generic ranges — no specific models, no staleness risk.
  */
 import type { FuelType } from './calc/fbt';
-import type { CarVariant } from '@/components/CarSilhouette';
 
-export const PRESETS: { label: string; carPrice: number; fuelType: FuelType; carVariant: CarVariant }[] = [
-  { label: 'Tesla Model 3 RWD', carPrice: 58_900, fuelType: 'bev', carVariant: 'sedan' },
-  { label: 'BYD Atto 3',        carPrice: 44_499, fuelType: 'bev', carVariant: 'suv-compact' },
-  { label: 'Kia EV5',           carPrice: 56_770, fuelType: 'bev', carVariant: 'suv-compact' },
-  { label: 'Toyota RAV4 Hybrid',carPrice: 45_260, fuelType: 'ice', carVariant: 'suv' },
+export const PRICE_RANGES: { label: string; subLabel: string; carPrice: number; fuelType: FuelType }[] = [
+  { label: 'Budget EV',    subLabel: '~$40k', carPrice: 40_000, fuelType: 'bev' },
+  { label: 'Mid-range EV', subLabel: '~$55k', carPrice: 55_000, fuelType: 'bev' },
+  { label: 'Premium EV',   subLabel: '~$80k', carPrice: 80_000, fuelType: 'bev' },
+  { label: 'Petrol SUV',   subLabel: '~$45k', carPrice: 45_000, fuelType: 'ice' },
 ];
