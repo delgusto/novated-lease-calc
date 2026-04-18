@@ -30,7 +30,7 @@ export function LeadCaptureForm() {
       form.reset();
     } catch (err) {
       setStatus('error');
-      setError(err instanceof Error ? err.message : 'Something went wrong');
+      setError('Something went wrong. Please try again or email us at hello@novalease.com.au');
     }
   }
 
@@ -39,8 +39,8 @@ export function LeadCaptureForm() {
       <div role="status" className="rounded-lg border border-emerald-600 bg-emerald-50 p-6">
         <h3 className="font-semibold text-emerald-900">Thanks — we&apos;ll be in touch.</h3>
         <p className="text-sm text-emerald-900/80 mt-1">
-          An independent novated lease specialist will reach out in the next business day with a personalised quote.
-          No obligation.
+          An independent novated lease specialist will email you within one business day with a personalised quote.
+          No obligation, no sales calls unless you ask.
         </p>
       </div>
     );
@@ -74,7 +74,7 @@ export function LeadCaptureForm() {
           id="notes"
           name="notes"
           rows={3}
-          placeholder="e.g. specific car, trade-in, budget constraints..."
+          placeholder="Got a specific car in mind? Any questions about the process?"
         />
       </div>
       <p className="text-xs text-muted-foreground leading-relaxed">

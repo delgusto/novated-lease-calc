@@ -82,7 +82,7 @@ export function compareScenarios(input: CompareInput): CompareOutput {
   const novatedEcmTotal = novatedEcmAnnualCost * termYears - resaleAtEnd;
 
   const novatedEcm: ScenarioResult = {
-    label: 'Novated Lease (ICE/standard)',
+    label: 'Standard Novated Lease',
     annualNetCost: novatedEcmAnnualCost,
     totalCost: novatedEcmTotal,
     weeklyNetCost: novatedEcmAnnualCost / 52,

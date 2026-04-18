@@ -12,7 +12,7 @@ const NAV_LINKS = [
 export function NavLinks() {
   const pathname = usePathname();
   return (
-    <nav className="flex items-center gap-6 text-sm text-muted-foreground">
+    <nav className="hidden sm:flex items-center gap-6 text-sm text-muted-foreground">
       {NAV_LINKS.map(({ href, label }) => (
         <Link
           key={href}

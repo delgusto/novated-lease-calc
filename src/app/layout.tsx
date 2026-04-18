@@ -64,15 +64,16 @@ export default function RootLayout({
         </header>
         <main id="main-content" className="flex-1">{children}</main>
         <footer className="border-t mt-16">
-          <div className="max-w-6xl mx-auto px-4 py-8 text-sm text-muted-foreground flex flex-wrap gap-x-6 gap-y-2 justify-between">
-            <p>
-              NovaLease is an independent comparison tool. Not financial advice. FY2025-26 rates.
-            </p>
-            <div className="flex gap-4">
+          <div className="max-w-6xl mx-auto px-4 py-8 text-sm text-muted-foreground space-y-3">
+            <div className="flex flex-wrap gap-x-5 gap-y-2">
+              <Link href="/ev-novated-lease-australia" className="hover:text-foreground">EV Guide</Link>
+              <Link href="/fbt-exemption-explained" className="hover:text-foreground">FBT Exemption</Link>
+              <Link href="/novated-vs-cash-vs-loan" className="hover:text-foreground">vs Cash &amp; Loan</Link>
               <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
               <Link href="/terms" className="hover:text-foreground">Terms</Link>
               <Link href="/disclosure" className="hover:text-foreground">Disclosure</Link>
             </div>
+            <p>NovaLease is an independent comparison tool. Not financial advice. FY2025-26 rates.</p>
           </div>
         </footer>
       </body>
