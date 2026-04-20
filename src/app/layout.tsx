@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Geist, Geist_Mono } from "next/font/google";
-import { NavLinks } from "@/components/NavLinks";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -45,35 +46,58 @@ export default function RootLayout({
   return (
     <html
       lang="en-AU"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background">
+      <body className="min-h-full flex flex-col">
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:ring-2 focus:ring-ring focus:outline-none"
         >
           Skip to calculator
         </a>
-        <header className="border-b">
-          <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-            <Link href="/" className="font-semibold tracking-tight text-lg">
-              NovaLease<span className="text-emerald-600">.</span>
+
+        <header className="nl-nav">
+          <div className="nl-nav-inner">
+            <Link href="/" className="nl-brand">
+              <span className="nl-brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22">
+                  <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="1.5" />
+                  <path d="M7 13l3 3 7-7" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+              <span className="nl-brand-name">
+                NovaLease<span className="nl-brand-dot">.</span>
+              </span>
             </Link>
-            <NavLinks />
+            <nav className="nl-nav-links">
+              <Link href="/ev-novated-lease-australia">EV Guide</Link>
+              <Link href="/fbt-exemption-explained">FBT Exemption</Link>
+              <Link href="/novated-vs-cash-vs-loan">vs Cash &amp; Loan</Link>
+              <Link href="#quote" className="nl-nav-cta">Get a quote</Link>
+            </nav>
           </div>
         </header>
+
         <main id="main-content" className="flex-1">{children}</main>
-        <footer className="border-t mt-16">
-          <div className="max-w-6xl mx-auto px-4 py-8 text-sm text-muted-foreground space-y-3">
-            <div className="flex flex-wrap gap-x-5 gap-y-2">
-              <Link href="/ev-novated-lease-australia" className="hover:text-foreground">EV Guide</Link>
-              <Link href="/fbt-exemption-explained" className="hover:text-foreground">FBT Exemption</Link>
-              <Link href="/novated-vs-cash-vs-loan" className="hover:text-foreground">vs Cash &amp; Loan</Link>
-              <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
-              <Link href="/terms" className="hover:text-foreground">Terms</Link>
-              <Link href="/disclosure" className="hover:text-foreground">Disclosure</Link>
+
+        <footer className="nl-foot">
+          <div className="nl-foot-inner">
+            <div className="nl-foot-brand">
+              <span className="nl-brand-name">
+                NovaLease<span className="nl-brand-dot">.</span>
+              </span>
+              <p className="nl-foot-tag">
+                Independent Australian novated lease comparison. Not financial advice. FY2025-26 rates.
+              </p>
             </div>
-            <p>NovaLease is an independent comparison tool. Not financial advice. FY2025-26 rates.</p>
+            <div className="nl-foot-links">
+              <Link href="/ev-novated-lease-australia">EV Guide</Link>
+              <Link href="/fbt-exemption-explained">FBT Exemption</Link>
+              <Link href="/novated-vs-cash-vs-loan">vs Cash &amp; Loan</Link>
+              <Link href="/privacy">Privacy</Link>
+              <Link href="/terms">Terms</Link>
+              <Link href="/disclosure">Disclosure</Link>
+            </div>
           </div>
         </footer>
       </body>

@@ -1,91 +1,84 @@
-import Link from 'next/link';
 import { Calculator } from '@/components/Calculator';
 import { LeadCaptureForm } from '@/components/LeadCaptureForm';
 import { FaqSection } from '@/components/FaqSection';
 import { StructuredData } from '@/components/StructuredData';
+import { LCT_THRESHOLD_FUEL_EFFICIENT } from '@/lib/calc/constants';
 
 export default function Home() {
   return (
     <>
       <StructuredData />
-      {/* HERO */}
-      <section className="border-b bg-gradient-to-b from-emerald-50/40 to-transparent">
-        <div className="max-w-6xl mx-auto px-4 pt-16 pb-10">
-          <span className="inline-block text-xs font-medium tracking-wider uppercase text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full">
-            FY2025-26 · EV FBT exemption included
-          </span>
-          <h1 className="mt-4 text-4xl md:text-5xl font-semibold tracking-tight max-w-3xl">
-            The honest Australian novated lease calculator.
-          </h1>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
-            See exactly how much an electric novated lease saves you versus buying outright or financing — using the FBT exemption rules that actually apply right now. No sign-up, no sales calls, no gotchas.
-          </p>
+
+      {/* HERO + CALCULATOR */}
+      <section className="nl-hero" id="calc">
+        <div className="nl-hero-inner">
+          <div className="nl-hero-meta">
+            <span className="nl-chip">
+              <span className="nl-chip-dot" aria-hidden="true" />
+              FY2025–26 · EV FBT exemption live
+            </span>
+            <h1 className="nl-hero-h1">
+              See what a novated lease
+              <br />
+              <em>actually</em> costs you.
+            </h1>
+            <p className="nl-hero-sub">
+              An independent Australian calculator. Compare an EV novated lease against buying
+              outright or taking a car loan — with the FBT exemption rules that apply right now. No
+              sign-up. No sales funnel.
+            </p>
+          </div>
+          <Calculator />
         </div>
       </section>
 
-      {/* CALCULATOR */}
-      <section className="max-w-6xl mx-auto px-4 py-10">
-        <Calculator />
+      {/* EXPLAIN STRIP */}
+      <section className="nl-explain" id="about">
+        <div className="nl-explain-inner">
+          <div className="nl-explain-item">
+            <span className="nl-explain-num">01</span>
+            <h3>Your car + its running costs come from pre-tax salary</h3>
+            <p>
+              Finance, fuel or electricity, rego, insurance, servicing, tyres — bundled into a
+              single package deducted before income tax.
+            </p>
+          </div>
+          <div className="nl-explain-item">
+            <span className="nl-explain-num">02</span>
+            <h3>Eligible EVs skip FBT entirely</h3>
+            <p>
+              Battery EVs under the ${LCT_THRESHOLD_FUEL_EFFICIENT.toLocaleString('en-AU')}{' '}
+              fuel-efficient LCT threshold pay zero FBT. That&apos;s 100% pre-tax, no employee
+              contribution.
+            </p>
+          </div>
+          <div className="nl-explain-item">
+            <span className="nl-explain-num">03</span>
+            <h3>You don&apos;t own it until you pay the residual</h3>
+            <p>
+              At term end: pay the ATO-prescribed balloon to keep it, refinance into a new lease, or
+              hand it back. The numbers here net that out.
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* LEAD CAPTURE */}
-      <section className="max-w-3xl mx-auto px-4 py-16">
-        <div className="rounded-xl border bg-card p-8">
-          <h2 className="text-2xl font-semibold tracking-tight">Want an exact quote?</h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            We&apos;ll have an independent novated lease specialist run your numbers on a real car, with your employer&apos;s actual FBT treatment. Free, no obligation.
-          </p>
-          <div className="mt-6">
-            <LeadCaptureForm />
+      <section className="nl-quote" id="quote">
+        <div className="nl-quote-inner">
+          <div className="nl-quote-copy">
+            <span className="nl-eyebrow">Ready for real numbers?</span>
+            <h2>Want an exact quote on a real car?</h2>
+            <p>
+              We&apos;ll have an independent specialist run your figures on an actual car with your
+              employer&apos;s FBT treatment. Free. No obligation. No call-centre chasing.
+            </p>
           </div>
+          <LeadCaptureForm />
         </div>
       </section>
 
-      {/* TRUST / EXPLAINER */}
-      <section className="border-t bg-muted/30">
-        <div className="max-w-6xl mx-auto px-4 py-16 grid md:grid-cols-3 gap-8">
-          <div>
-            <h3 className="font-semibold">Why novated leases work</h3>
-            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-              The vehicle and its running costs come out of your pre-tax salary. For eligible EVs, the FBT
-              exemption means zero post-tax contribution — 100% pre-tax.
-            </p>
-            <Link
-              href="/fbt-exemption-explained"
-              className="text-sm text-emerald-700 mt-3 inline-block hover:underline"
-            >
-              How the FBT exemption works →
-            </Link>
-          </div>
-          <div>
-            <h3 className="font-semibold">EV vs ICE vs PHEV</h3>
-            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-              Only battery EVs under the $91,387 fuel-efficient LCT threshold qualify in FY2025-26. The PHEV
-              exemption ended 1 April 2025 for new leases.
-            </p>
-            <Link
-              href="/ev-novated-lease-australia"
-              className="text-sm text-emerald-700 mt-3 inline-block hover:underline"
-            >
-              Read the EV guide →
-            </Link>
-          </div>
-          <div>
-            <h3 className="font-semibold">Lease vs cash vs loan</h3>
-            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-              A novated lease usually wins for EVs on salary over ~$90k. For cheap petrol cars, cash is often
-              still the cheapest path.
-            </p>
-            <Link
-              href="/novated-vs-cash-vs-loan"
-              className="text-sm text-emerald-700 mt-3 inline-block hover:underline"
-            >
-              See the comparison →
-            </Link>
-          </div>
-        </div>
-      </section>
-
+      {/* FAQ */}
       <FaqSection />
     </>
   );
