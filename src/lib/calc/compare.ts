@@ -82,7 +82,7 @@ export function compareScenarios(input: CompareInput): CompareOutput {
   const novatedEcmTotal = novatedEcmAnnualCost * termYears - resaleAtEnd;
 
   const novatedEcm: ScenarioResult = {
-    label: 'Standard Novated Lease',
+    label: 'Novated Lease (with FBT)',
     annualNetCost: novatedEcmAnnualCost,
     totalCost: novatedEcmTotal,
     weeklyNetCost: novatedEcmAnnualCost / 52,
@@ -106,7 +106,7 @@ export function compareScenarios(input: CompareInput): CompareOutput {
     const evTotal = evAnnualCost * termYears - resaleAtEnd;
 
     novatedEvExempt = {
-      label: 'Novated Lease (EV FBT-exempt)',
+      label: 'EV Novated Lease (tax-free)',
       annualNetCost: evAnnualCost,
       totalCost: evTotal,
       weeklyNetCost: evAnnualCost / 52,

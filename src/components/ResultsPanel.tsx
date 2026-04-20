@@ -37,13 +37,13 @@ type BreakdownRow = { label: string; value: string; credit?: boolean };
 function getBreakdownRows(breakdown: Record<string, number>): BreakdownRow[] {
   const rows: BreakdownRow[] = [];
   if ('annualPackageDeduction' in breakdown) {
-    rows.push({ label: 'Annual pre-tax package', value: `${aud.format(breakdown.annualPackageDeduction)}/yr` });
+    rows.push({ label: 'Annual salary deduction (pre-tax)', value: `${aud.format(breakdown.annualPackageDeduction)}/yr` });
   }
   if ('postTaxEcmContribution' in breakdown && breakdown.postTaxEcmContribution > 0) {
-    rows.push({ label: 'Employee contribution (FBT offset)', value: `${aud.format(breakdown.postTaxEcmContribution)}/yr` });
+    rows.push({ label: 'Post-tax top-up (to offset tax)', value: `${aud.format(breakdown.postTaxEcmContribution)}/yr` });
   }
   if ('reducedTakeHome' in breakdown) {
-    rows.push({ label: 'Net take-home reduction', value: `${aud.format(breakdown.reducedTakeHome)}/yr` });
+    rows.push({ label: 'Take-home pay reduction', value: `${aud.format(breakdown.reducedTakeHome)}/yr` });
   }
   if ('upfront' in breakdown) {
     rows.push({ label: 'Purchase price (day 1)', value: aud.format(breakdown.upfront) });
@@ -241,7 +241,7 @@ function ScenarioRow({
             {isBest && <span className="nl-pill nl-pill-best">Best path</span>}
           </div>
           <div className="nl-scen-sub">
-            {result.ownsCar ? 'You own the car at term end' : 'Pay residual to keep, or refinance'}
+            {result.ownsCar ? 'You own the car at term end' : 'Pay a lump sum at the end to keep it, or hand it back'}
           </div>
         </div>
         <div className="nl-scen-nums">
@@ -290,7 +290,7 @@ function ScenarioRow({
               </div>
             ))}
             <div className="nl-brk-row nl-brk-total">
-              <span className="nl-brk-label">Net cost over {termYears} years</span>
+              <span className="nl-brk-label">Total cost over {termYears} years</span>
               <span className="nl-brk-val">{fmtAbs(result.totalCost)}</span>
             </div>
           </div>

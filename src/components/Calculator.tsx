@@ -178,8 +178,8 @@ export function Calculator() {
           prefix="$"
           hint={
             overLct
-              ? `Over the $${LCT_THRESHOLD_FUEL_EFFICIENT.toLocaleString('en-AU')} LCT threshold — no FBT exemption`
-              : `FBT-exempt LCT threshold: $${LCT_THRESHOLD_FUEL_EFFICIENT.toLocaleString('en-AU')}`
+              ? `Over the $${LCT_THRESHOLD_FUEL_EFFICIENT.toLocaleString('en-AU')} price cap — this car doesn't qualify for the tax exemption`
+              : `Tax exemption price cap: $${LCT_THRESHOLD_FUEL_EFFICIENT.toLocaleString('en-AU')}`
           }
         />
 
@@ -216,8 +216,8 @@ export function Calculator() {
             <span className="nl-alert-ico" aria-hidden="true">!</span>
             <div>
               This EV is over the{' '}
-              <strong>${LCT_THRESHOLD_FUEL_EFFICIENT.toLocaleString('en-AU')}</strong> fuel-efficient
-              LCT threshold — it does <strong>not</strong> qualify for the FBT exemption.
+              <strong>${LCT_THRESHOLD_FUEL_EFFICIENT.toLocaleString('en-AU')}</strong> price cap — it does{' '}
+              <strong>not</strong> qualify for the tax exemption.
             </div>
           </div>
         )}
@@ -225,8 +225,8 @@ export function Calculator() {
           <div className="nl-alert" role="alert">
             <span className="nl-alert-ico" aria-hidden="true">!</span>
             <div>
-              The PHEV FBT exemption ended <strong>1 April 2025</strong>. New PHEV leases are
-              treated as standard (no exemption).
+              The plug-in hybrid tax exemption ended <strong>1 April 2025</strong>. New plug-in hybrid leases
+              are treated the same as petrol cars (no exemption).
             </div>
           </div>
         )}

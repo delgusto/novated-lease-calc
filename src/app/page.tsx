@@ -56,8 +56,8 @@ export default function Home() {
             <span className="nl-explain-num">03</span>
             <h3>You don&apos;t own it until you pay the residual</h3>
             <p>
-              At term end: pay the ATO-prescribed balloon to keep it, refinance into a new lease, or
-              hand it back. The numbers here net that out.
+              At term end: pay a government-set lump sum (around 28% of the car price) to own it,
+              refinance into a new lease, or hand it back. The numbers here account for that.
             </p>
           </div>
         </div>
